@@ -209,3 +209,41 @@ Connection: close
   "Result": true
 }
 ```
+
+Отбор по имени продукта и максимальной стоимости (до 600 единиц)<br/>
+curl -i http://localhost:5000/fdb/api/v1.0/prods/getProdNamePrice/%D0%9D%D0%BE%D1%81%D0%BA%D0%B8/600
+```
+HTTP/1.1 200 OK
+Server: Werkzeug/3.1.3 Python/3.9.21
+Date: Wed, 14 May 2025 19:14:34 GMT
+Content-Type: application/json
+Content-Length: 179
+Connection: close
+
+{
+  "Result": [
+    {
+      "price": 25,
+      "product_id": "ed2832ee-a9ef-4410-a9b8-2894c52d1773",
+      "size": 42,
+      "title": "\u041d\u043e\u0441\u043a\u0438"
+    }
+  ]
+}
+```
+
+Отбор по имени продукта и максимальной стоимости (до 20 единиц)<br/>
+
+```
+curl -i http://localhost:5000/fdb/api/v1.0/prods/getProdNamePrice/%D0%9D%D0%BE%D1%81%D0%BA%D0%B8/20 
+HTTP/1.1 404 NOT FOUND
+Server: Werkzeug/3.1.3 Python/3.9.21
+Date: Wed, 14 May 2025 19:16:41 GMT 
+Content-Type: application/json      
+Content-Length: 27
+Connection: close
+
+{
+  "error": "Not found"
+}
+```
