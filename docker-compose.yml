@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  fdb-coord-1:
+    image: foundationdb/foundationdb:7.4.1
+    environment:
+      FDB_PORT: 4500
+      FDB_CLUSTER_FILE_CONTENTS: docker:docker@fdb-coord-1:4500,fdb-coord-2:4501,fdb-coord-3:4502
+    ports:
+      - 4500:4500
+      - 5000:5000
+    volumes:
+      - fdb-coord-1-data:/var/fdb/data
+  fdb-coord-2:
+    image: foundationdb/foundationdb:7.4.1
+    environment:
+      FDB_PORT: 4501
+      FDB_CLUSTER_FILE_CONTENTS: docker:docker@fdb-coord-1:4500,fdb-coord-2:4501,fdb-coord-3:4502
+    ports:
+      - 4501:4501
+    volumes:
+      - fdb-coord-2-data:/var/fdb/data
+  fdb-coord-3:
+    image: foundationdb/foundationdb:7.4.1
+    environment:
+      FDB_PORT: 4502
+      FDB_CLUSTER_FILE_CONTENTS: docker:docker@fdb-coord-1:4500,fdb-coord-2:4501,fdb-coord-3:4502
+    ports:
+      - 4502:4502
+    volumes:
+      - fdb-coord-3-data:/var/fdb/data
+  fdb-server-1:
+    image: foundationdb/foundationdb:7.4.1
+    depends_on: [fdb-coord-1, fdb-coord-2, fdb-coord-3]
+    environment:
+      FDB_PORT: 4510
+      FDB_CLUSTER_FILE_CONTENTS: docker:docker@fdb-coord-1:4500,fdb-coord-2:4501,fdb-coord-3:4502
+    ports:
+      - 4510:4510
+    volumes:
+      - fdb-server-1-data:/var/fdb/data
+  fdb-server-2:
+    image: foundationdb/foundationdb:7.4.1
+    depends_on: [fdb-coord-1, fdb-coord-2, fdb-coord-3]
+    environment:
+      FDB_PORT: 4511
+      FDB_CLUSTER_FILE_CONTENTS: docker:docker@fdb-coord-1:4500,fdb-coord-2:4501,fdb-coord-3:4502
+    ports:
+      - 4511:4511
+    volumes:
+      - fdb-server-2-data:/var/fdb/data
+  fdb-server-3:
+    image: foundationdb/foundationdb:7.4.1
+    depends_on: [fdb-coord-1, fdb-coord-2, fdb-coord-3]
+    environment:
+      FDB_PORT: 4512
+      FDB_CLUSTER_FILE_CONTENTS: docker:docker@fdb-coord-1:4500,fdb-coord-2:4501,fdb-coord-3:4502
+    ports:
+      - 4512:4512
+    volumes:
+      - fdb-server-3-data:/var/fdb/data
+
+volumes:
+  fdb-coord-1-data:
+  fdb-coord-2-data:
+  fdb-coord-3-data:
+  fdb-server-1-data:
+  fdb-server-2-data:
+  fdb-server-3-data:
